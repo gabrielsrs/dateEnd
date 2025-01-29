@@ -1,10 +1,13 @@
 from flask_restx import reqparse, inputs
+from .custom_types.tz_identifier import tz_identifier
 
 class UpdateParser:
-    def __call__(self, *args, **kwds):
-        update_parser = reqparse.RequestParser(bundle_errors=True)
-        update_parser.add_argument('title', required=False, type=str, location='json') #help='Must to have a title and be in string format', 
-        update_parser.add_argument('dateEnd', required=False, type=inputs.datetime_from_iso8601, location='json') #help='Date is not valid, must be in ISO8601 format("2012-01-01T23:30:00+02:00")', 
-        update_parser.add_argument('timezone', required=False, type=str, location='json')
+    def __init__(self):
+        self.update_parser = reqparse.RequestParser(bundle_errors=True)
 
-        return update_parser
+    def __call__(self, *args, **kwds):
+        self.update_parser.add_argument('title', required=False, type=str, location='json')
+        self.update_parser.add_argument('dateEnd', required=False, type=inputs.datetime_from_iso8601, location='json')
+        self.update_parser.add_argument('timezone', required=False, type=tz_identifier, location='json')
+
+        return self.update_parser
