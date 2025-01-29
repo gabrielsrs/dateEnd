@@ -24,4 +24,8 @@ class CreateDateHandler:
         created_date = self.conn.find_one(self.id.id_to_object())
         created_date.pop("_id")
 
-        return {**self.id.object_to_id(), **created_date}
+        return {
+            "code": 201,
+            "message": "Date successfully created",
+            "data": {**self.id.object_to_id(), **created_date}
+        }, 201

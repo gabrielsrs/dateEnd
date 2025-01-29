@@ -9,10 +9,10 @@ class DeleteDateHandler:
     def delete_date(self):
         query_response = self.conn.delete_one(self.id.id_to_object())
 
-        return self._handle_query_response(query_response)
+        if not query_response.deleted_count:
+            return {"message": "Id not found", "data": {}}
 
-    def _handle_query_response(self, query_response):
-        return {
-            "deleted_count": query_response.deleted_count, 
-            "deletedId": self.id.object_to_id()
-        }
+        return self._handle_query_response()
+
+    def _handle_query_response(self):
+        return {"deletedId": self.id.object_to_id()["id"]}, 200
