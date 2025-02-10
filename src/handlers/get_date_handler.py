@@ -70,7 +70,7 @@ class GetDateHandler:
         }
         status = self._status(diff_in_secs)
 
-        return  {
+        return {
             "code": 200,
             "data": {
                 **self.id.object_to_id(),
@@ -107,7 +107,7 @@ class GetDateHandler:
                     **units_from_date
                 }
 
-            elif unit == time_units_as_list[-1]:
+            if unit == time_units_as_list[-1]:
                 units_from_date[unit] = convert
 
                 return {
