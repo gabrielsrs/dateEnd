@@ -31,7 +31,6 @@ class UpdateDateService:
 
         date["updated_at_utc"] = datetime.now(ZoneInfo('utc')).replace(tzinfo=None).isoformat()
 
-        update_data.update({v is not None and k: str(v) for k, v in date.items()})
-        update_data.pop(False)
+        update_data.update({k: str(v) for k, v in date.items() if v is not None})
 
         return update_data
