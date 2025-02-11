@@ -14,15 +14,22 @@ from ..utils.validation_parsers.create_parser import CreateParser
 from ..utils.validation_parsers.update_parser import UpdateParser
 from ..utils.validation_parsers.id_validator import id_validator
 
-api = Namespace('date', description='date routes', ordered=True)
+from ..utils.payload_expect.date_payload import date_payload_models, date_payload
 
-def assign_models(model):
+api = Namespace('Date', description='date routes', ordered=True)
+
+def assign_models(models):
     for model in models:
         api.models[model.name] = model
 
-for models in [get_models, create_models, update_models, delete_models]:
-    assign_models(models)
-
+for module_models in [
+    get_models,
+    create_models,
+    update_models,
+    delete_models,
+    date_payload_models
+]:
+    assign_models(module_models)
 
 @api.route('/<string:date_id>')
 class DateEnd(Resource):
@@ -40,6 +47,7 @@ class DateEnd(Resource):
         return get_handler.get_date()
 
     @api.marshal_with(updated_date)
+    @api.expect(date_payload, validate=False)
     @api.expect(_update_parser)
     @id_validator
     def patch(self, date_id):
@@ -52,7 +60,7 @@ class DateEnd(Resource):
         delete_handler = DeleteDateHandler(date_id)
         return delete_handler.delete_date()
 
-@api.route('')
+@api.route('', doc={'description': 'This route accepts other fields than these'})
 class DateEndPost(Resource):
     def __init__(self, api=None, *args, **kwargs):
         super().__init__(api, *args, **kwargs)
@@ -64,6 +72,7 @@ class DateEndPost(Resource):
         return self.create_parser()
 
     @api.marshal_with(created_date)
+    @api.expect(date_payload, validate=False)
     @api.expect(_create_parser)
     def post(self):
         return self.create_handler.create_date(self.create_parser)
