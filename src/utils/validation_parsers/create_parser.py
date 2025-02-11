@@ -3,7 +3,7 @@ from .custom_types.tz_identifier import tz_identifier
 
 class CreateParser:
     def __init__(self):
-        self.create_parser = reqparse.RequestParser(bundle_errors=True)
+        self.create_parser = reqparse.RequestParser(bundle_errors=True, trim=True)
 
     def __call__(self):
         self.create_parser.add_argument('title', required=True, type=str, location='json')
