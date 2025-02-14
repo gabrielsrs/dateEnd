@@ -4,6 +4,7 @@ from datetime import datetime
 from zoneinfo import ZoneInfo
 from aniso8601 import parse_datetime
 from math import ceil
+from werkzeug.exceptions import NotFound
 
 class GetDateHandler:
     def __init__(self, date_id):
@@ -25,11 +26,7 @@ class GetDateHandler:
         query_response = self.conn.find_one(self.id.id_to_object())
 
         if not query_response:
-            return {
-                "code": 400,
-                "message": "Id not found",
-                "data": {}
-            }, 400
+            raise NotFound("Id not found")
 
         return self._handle_query_response(query_response)
 
