@@ -1,13 +1,15 @@
 from datetime import datetime
 from zoneinfo import ZoneInfo
 import tzdata
+from werkzeug.exceptions import BadRequest, NotFound
 
 class UpdateDateService:
     def update_date(self, update_parser, req_data, current_data):
         if not req_data:
-            return {"message": "Nothing to update"}, 400
-        elif not current_data:
-            return {"message": "Informed Id not return any registered date"}, 400
+            raise BadRequest("Nothing to update")
+
+        if not current_data:
+            raise NotFound("Informed Id not return any registered date")
 
         date = req_data.copy()
         date.update(update_parser().parse_args())

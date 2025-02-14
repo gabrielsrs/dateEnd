@@ -1,5 +1,7 @@
 from ..repositories.date_repository import DateRepository
 from ..utils.id_parser import IdParser
+from werkzeug.exceptions import NotFound
+
 
 class DeleteDateHandler:
     def __init__(self, date_id):
@@ -10,7 +12,7 @@ class DeleteDateHandler:
         query_response = self.conn.delete_one(self.id.id_to_object())
 
         if not query_response.deleted_count:
-            return {"message": "Id not found", "data": {}}
+            raise NotFound("Id not found")
 
         return self._handle_query_response()
 
