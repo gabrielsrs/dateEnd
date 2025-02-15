@@ -27,6 +27,7 @@ class ErrorHandler:
             }
 
         return {
+            "code": 500,
             "message": "An unexpected error occurred",
             "error": str(self.error),
         }, 500
