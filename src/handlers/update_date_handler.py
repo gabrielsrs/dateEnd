@@ -11,8 +11,11 @@ class UpdateDateHandler:
 
     def update_date(self, update_parser):
         req_data = request.get_json()
+        req_data.update(update_parser().parse_args())
+        
         current_data = self.conn.find_one(self.id.id_to_object())
-        to_update_data = self.update_date_service.update_date(update_parser, req_data, current_data)
+
+        to_update_data = self.update_date_service.update_date(req_data, current_data)
 
         query_response = self.conn.update_one(self.id.id_to_object(), to_update_data)
 

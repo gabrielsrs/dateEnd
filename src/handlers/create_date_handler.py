@@ -13,7 +13,9 @@ class CreateDateHandler:
 
     def create_date(self, create_parser):
         req_data = request.get_json()
-        to_create_data = self.create_date_service.create_date(req_data, create_parser)
+        
+        req_data.update(create_parser().parse_args())
+        to_create_data = self.create_date_service.create_date(req_data)
 
         query_response = self.conn.insert_one(to_create_data)
 
