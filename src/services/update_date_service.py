@@ -4,15 +4,14 @@ import tzdata
 from werkzeug.exceptions import BadRequest, NotFound
 
 class UpdateDateService:
-    def update_date(self, update_parser, req_data, current_data):
-        if not req_data:
+    def update_date(self, req_data, current_data):
+        if not [item for item in req_data.values() if item is not None]:
             raise BadRequest("Nothing to update")
 
         if not current_data:
             raise NotFound("Informed Id not return any registered date")
 
         date = req_data.copy()
-        date.update(update_parser().parse_args())
 
         update_data = current_data.copy()
         update_data.pop("_id")
@@ -29,7 +28,7 @@ class UpdateDateService:
             ).isoformat()
 
             date["iana"] = date.pop("timezone") or update_data["iana"]
-            date["tzdb"] = tzdata.__version__
+            date["tzdb"] = tzdata.IANA_VERSION
 
         date["updated_at_utc"] = datetime.now(ZoneInfo('utc')).replace(tzinfo=None).isoformat()
 
