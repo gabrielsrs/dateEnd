@@ -12,7 +12,15 @@ for models in timezones_models:
 
 @api.route('')
 class Timezones(Resource):
+    """
+        Resource for managing timezones.
+
+        Operations:
+        - **Read** (`GET /timezones`) → Retrieve timezones.
+            :return: A json with contain the timezones, with offset and identifiers
+    """
     @api.marshal_with(timezones)
     def get(self):
+        """Get all available timezones."""
         timezones_handler = TimezonesHandler()
         return timezones_handler.timezones()
