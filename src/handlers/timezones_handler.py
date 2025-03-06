@@ -3,7 +3,15 @@ import datetime
 import tzdata
 
 class TimezonesHandler:
+    """Menage get timezones available"""
+
     def timezones(self):
+        """
+        Get all currents available timezones
+
+        :return: Information from tzdata from each timezone
+        """
+
         timezones = []
 
         for tz_identifier in available_timezones():
