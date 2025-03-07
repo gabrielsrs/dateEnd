@@ -7,7 +7,10 @@ from math import ceil
 from werkzeug.exceptions import NotFound
 
 class GetDateHandler:
+    """Manage get request from a date"""
+
     def __init__(self, date_id):
+        """Initiate the db connection, id to get date and a dictionary with seconds from time units"""
 
         self.conn = DateRepository()
         self.id = IdParser(date_id)
@@ -23,6 +26,14 @@ class GetDateHandler:
         }
 
     def get_date(self):
+        """
+        Query a date based in current class id
+
+        :raise NotFound: Query from given id return nothing
+
+        :return: A date object with additional informative fields
+        """
+
         query_response = self.conn.find_one(self.id.id_to_object())
 
         if not query_response:
@@ -31,6 +42,14 @@ class GetDateHandler:
         return self._handle_query_response(query_response)
 
     def _handle_query_response(self, query_response):
+        """
+        Formate the query_response, and add some informative fields
+
+        :param query_response: Database data from a given date id
+
+        :return: Formatted date object response
+        """
+
         formatted_data = query_response.copy()
 
         current_utc_time = datetime.now(
@@ -78,6 +97,14 @@ class GetDateHandler:
         }
 
     def _create_date(self, seconds):
+        """
+        Calculate the date based on seconds
+
+        :param seconds: Seconds that represent a difference between to times
+
+        :return: Date corresponding from the given seconds
+        """
+
         date_for_end = {unit: 0 for unit in reversed(self.time_units_in_seconds)}
 
         for unit in  date_for_end:
@@ -89,6 +116,13 @@ class GetDateHandler:
         return date_for_end
 
     def _create_absolute_date(self, seconds):
+        """
+        Calculate absolute seconds from each unit, since the total seconds correspond to a unit
+
+        :param seconds: Seconds that represent a difference between to times
+
+        :return: Absolute seconds from each unit
+        """
 
         units_from_date = {unit: 0 for unit in reversed(self.time_units_in_seconds)}
         time_units_as_list = list(self.time_units_in_seconds)
@@ -117,6 +151,14 @@ class GetDateHandler:
         return {}
 
     def _status(self, seconds):
+        """
+        Validate if the date has passed or not.
+
+        :param seconds: Seconds that represent a difference between to times
+
+        :return: Status object information if date end passed
+        """
+
         if seconds > 0:
             return {"status": "Upcoming", "marker": 1}
 
