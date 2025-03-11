@@ -4,7 +4,16 @@ import tzdata
 from werkzeug.exceptions import BadRequest, NotFound
 
 class UpdateDateService:
+    """Format dictionary for update date"""
     def update_date(self, req_data, current_data):
+        """
+        Update a document with requested data
+
+        :param req_data: Request data with info to update date
+        :param current_data: Date document to update
+        
+        :return: Formatted date dictionary
+        """
         if not [item for item in req_data.values() if item is not None]:
             raise BadRequest("Nothing to update")
 
