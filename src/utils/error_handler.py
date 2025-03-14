@@ -1,10 +1,13 @@
 from werkzeug.exceptions import HTTPException
 
 class ErrorHandler:
+    """Handle errors from application"""
     def __init__(self, error):
+        """Initiate the error object"""
         self.error = error
 
     def __call__(self, *args, **kwds):
+        """Create a response for each error type"""
         if isinstance(self.error, HTTPException):
             if self.error.code == 404:
                 return {
