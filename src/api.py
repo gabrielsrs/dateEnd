@@ -9,6 +9,13 @@ api = Api(bundle_errors=True)
 
 @api.errorhandler(HTTPException)
 def http_exception_error_handler(error):
+    """
+    Handle rased HTTPException errors
+
+    :param error: Error object
+
+    :return: Response to a given error
+    """
     if hasattr(error, "data"):
         error.data = OrderedDict([
             ("code", error.code),
