@@ -2,6 +2,7 @@ from dataclasses import dataclass
 
 @dataclass
 class DateFromDb:
+    """Object definition with requires fields"""
     _id: str
     title: str
     date_time_local: str
@@ -17,7 +18,9 @@ from factory import Factory, Faker, LazyFunction, Transformer
 
 
 class DateDbFactory(Factory):
+    """Create factory related with date form database object"""
     class Meta:
+        """Define the date object to be generated in factory """
         model = DateFromDb
 
     _id= LazyFunction(ObjectId)
