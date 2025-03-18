@@ -6,6 +6,7 @@ from ..data_factories.date_factory import DateFactory
 create_date_service = CreateDateService()
 
 def test_create_date_structure():
+    """Test date creation to assert if service is formatting fields as expected"""
     date_object = DateFactory()
     created_date = create_date_service.create_date(asdict(date_object))
 
