@@ -1,2 +1,2 @@
-# dateEnd
-An API to storage final date and return some parameters related to this date
+# D-TimeLeft
+An API to storage a Date and return some parameters related to time left for this date
