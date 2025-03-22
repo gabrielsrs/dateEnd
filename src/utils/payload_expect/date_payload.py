@@ -6,7 +6,7 @@ class CustomField(fields.Raw):
 
 date_payload = Model('Date payload', {
     'title': fields.String(require=False),
-    'dateEnd': fields.DateTime(require=False),
+    'date': fields.DateTime(require=False),
     'timezone': CustomField(require=False),
 })
 
